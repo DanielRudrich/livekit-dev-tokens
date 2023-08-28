@@ -40,8 +40,8 @@ export function generateToken(settings: TokenSettings) {
   grant.roomRecord = settings.roomRecord || undefined;
   grant.roomAdmin = settings.roomAdmin || undefined;
   grant.ingressAdmin = settings.ingressAdmin || undefined;
-  grant.canPublish = settings.canPublish || undefined;
-  grant.canSubscribe = settings.canSubscribe || undefined;
+  grant.canPublish = settings.canPublish || false;
+  grant.canSubscribe = settings.canSubscribe || false;
 
   grant.canUpdateOwnMetadata = settings.canUpdateOwnMetadata || undefined;
   grant.hidden = settings.hidden || undefined;
