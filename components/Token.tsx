@@ -1,30 +1,38 @@
 'use client';
 
 import clsx from 'clsx';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useRef } from 'react';
 
 function Token({ token, small }: { token: string; small?: boolean }) {
-  const [copied, setCopied] = useState(false);
+  const copiedRef = useRef<HTMLDivElement>(null);
 
   const copyTokenToClipboard = useCallback(() => {
     if ('clipboard' in navigator) {
       navigator.clipboard.writeText(token);
-      setCopied(true);
+
+      copiedRef.current?.classList.remove('transition-opacity');
+      copiedRef.current?.classList.add('transition-none');
+      copiedRef.current?.classList.remove('opacity-0');
+
+      (async () => {
+        await new Promise((resolve) => setTimeout(resolve, 300));
+        copiedRef.current?.classList.remove('transition-none');
+        copiedRef.current?.classList.add('transition-opacity');
+        copiedRef.current?.classList.add('opacity-0');
+      })();
     }
   }, [token]);
-
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      setCopied(false);
-    }, 2000);
-    return () => clearTimeout(timeout);
-  }, [copied]);
 
   return (
     <div className="flex max-w-lg flex-col rounded bg-gray-900 p-1 font-mono">
       <div className="flex select-none flex-row items-end justify-between">
         <div className="h-4  text-xs text-gray-400">Token</div>
-        <div className="h-4 text-xs text-sky-400">{copied && 'copied to clipboard'}</div>
+        <div
+          ref={copiedRef}
+          className="h-4 text-xs text-sky-400 opacity-0 transition-opacity duration-1000"
+        >
+          copied to clipboard
+        </div>
       </div>
 
       <div
