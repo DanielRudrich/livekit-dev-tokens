@@ -13,6 +13,7 @@ const DEFAULT_SETTINGS: TokenSettings = {
   roomJoin: true,
   canSubscribe: true,
   canPublish: true,
+  canPublishData: true,
 };
 
 function TokenGenerator({ initialSettings }: { initialSettings?: TokenSettings }) {
